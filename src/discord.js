@@ -24,20 +24,21 @@ function createEmbed(repo, branch, url, commits, size, report) {
 
     var embed = new discord.RichEmbed()
                 .setColor(getEmbedColor(report))
-                //.setTitle(size + (size == 1 ? " Commit was " : " Commits were ") + "added to " + repo + " (" + branch + ")")
-                .setTitle(size + (size == 1 ? " commit was " : " commits were ") + "added to " + branch)
+                // .setTitle(size + (size == 1 ? " Commit was " : " Commits were ") + "added to " + repo + " (" + branch + ")")
+                // .setTitle(size + (size == 1 ? " commit was " : " commits were ") + "added to " + branch)
+                .setTitle(`${size} new ${size == 1 ? "commit" : "commits"} in ${repo}`)
                 .setDescription(getChangeLog(commits, size))
                 .setTimestamp(Date.parse(latest.timestamp))
-                .setFooter(`⚡ Edited by @${commits[0].author.username}`)
+                .setFooter(`@${commits[0].author.username}`)
 
     if (report.tests.length > 0) { appendTestResults(embed, report) }
-    return embed
+    return embed;
 }
 
 function getChangeLog(commits, size) {
     var changelog = ""
     for (var i in commits) {
-        if (i > 4) {
+        if (i > 9) {
             changelog += `+ ${size - i} more...\n`
             break
         }
@@ -48,17 +49,9 @@ function getChangeLog(commits, size) {
         changelog += `[\`${sha}\`](${commit.url}) — ${message} \n`
     }
 
-    return changelog
+    return changelog;
 }
-/*
-*
-*
-*
-*  Ignore that, I delete soon.
-*
-*
-*
-*/
+
 function getEmbedColor(report) {
     if (report.status === "FAILURE") {
         return 0x00BB22

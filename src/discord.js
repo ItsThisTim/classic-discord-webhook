@@ -24,7 +24,7 @@ function createEmbed(repo, branch, url, commits, size, report) {
 
     var embed = new discord.RichEmbed()
                 .setColor(/*getEmbedColor(report)*/"#9AACB6")
-                .setTitle(`${size} new ${size == 1 ? "commit" : "commits"}`)
+                .setAuthor(`${size} new ${size == 1 ? "commit" : "commits"}`, `https://cdn.discordapp.com/attachments/502208815937224718/829306468264050698/inbox-tray_1f4e5.png`)
                 .addField(`Changelog`, getChangeLog(commits, size))
                 .setTimestamp(Date.parse(latest.timestamp))
                 .setFooter(`${commits[0].author.username}`)
@@ -44,7 +44,7 @@ function getChangeLog(commits, size) {
         var commit = commits[i];
         var sha = commit.id.substring(0, 6);
         var message = commit.message.length > MAX_MESSAGE_LENGTH ? (commit.message.substring(0, MAX_MESSAGE_LENGTH) + "...") : commit.message;
-        changelog += `- ${message} \n`; // - [\`${sha}\`](${commit.url}) 
+        changelog += `- ${message}\n`; // - [\`${sha}\`](${commit.url}) 
     }
 
     return changelog;
